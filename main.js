@@ -6,8 +6,11 @@ window.getPath = function (el) {
         array.unshift(getAttributeString(currentElement))
         currentElement = currentElement.parentElement
     }
-    // coming soon
-    return array.join(' ')
+    let string = array.join(' ')
+    if (document.querySelectorAll(string).length > 1) {
+        string = getQueryStringWithNumberOfChild(string, el)
+    }
+    return string
 }
 
 function getAttributeString(el) {
@@ -25,4 +28,22 @@ function getAttributeString(el) {
 
 function getValidClassString(string) {
     return string.split(' ').join('.')
+}
+
+function getQueryStringWithNumberOfChild(inputString, el) {
+    if (!el.previousElementSibling) {
+        return inputString + ':first-child'
+    }
+    if (!el.nextElementSibling) {
+        return inputString + ':last-child'
+    }
+    const elements = el.parentElement.children
+    for (let i = 1; i < elements.length - 1; i++) {
+        if (elements[i] === el) {
+            console.log(document.querySelectorAll(inputString + `:nth-child(${i + 1})`))
+            return inputString + `:nth-child(${i + 1})`
+        }
+    }
+    console.log(document.querySelectorAll(inputString))
+    return inputString
 }
