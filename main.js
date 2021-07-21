@@ -1,16 +1,19 @@
-window.getPath = function (el) {
-    let array = [getAttributeString(el)]
+function getPath (el) {
+    if (el) {
+        let array = [getAttributeString(el)]
 
-    let currentElement = el.parentElement
-    while (!!currentElement) {
-        array.unshift(getAttributeString(currentElement))
-        currentElement = currentElement.parentElement
+        let currentElement = el.parentElement
+        while (!!currentElement) {
+            array.unshift(getAttributeString(currentElement))
+            currentElement = currentElement.parentElement
+        }
+        let string = array.join(' ')
+        if (document.querySelectorAll(string).length > 1) {
+            string = getQueryStringWithNumberOfChild(string, el)
+        }
+        return string
     }
-    let string = array.join(' ')
-    if (document.querySelectorAll(string).length > 1) {
-        string = getQueryStringWithNumberOfChild(string, el)
-    }
-    return string
+    return null
 }
 
 function getAttributeString(el) {
@@ -45,3 +48,5 @@ function getQueryStringWithNumberOfChild(inputString, el) {
     }
     return inputString
 }
+
+module.exports = getPath
