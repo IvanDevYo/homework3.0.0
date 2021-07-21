@@ -1,20 +1,28 @@
 window.getPath = function (el) {
-    let string = getAttributeString(el)
+    let array = [getAttributeString(el)]
+
+    let currentElement = el.parentElement
+    while (!!currentElement) {
+        array.unshift(getAttributeString(currentElement))
+        currentElement = currentElement.parentElement
+    }
     // coming soon
-    return string
+    return array.join(' ')
 }
 
 function getAttributeString(el) {
     const attributes = el.attributes
-    let string = ''
+    let string = el.tagName.toLowerCase()
     for (let i = 0; i < attributes.length; i++) {
         const nodeItem = attributes[i]
         switch (nodeItem.nodeName) {
-            case 'class': string += '.'; break
-            case 'id': string += '#'; break
+            case 'class': string += '.' + getValidClassString(nodeItem.value); break
+            case 'id': string += '#' + nodeItem.value; break
         }
-        string += nodeItem.value
     }
-    if (!string) return el.tagName
     return string
+}
+
+function getValidClassString(string) {
+    return string.split(' ').join('.')
 }
