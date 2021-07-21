@@ -40,10 +40,8 @@ function getQueryStringWithNumberOfChild(inputString, el) {
     const elements = el.parentElement.children
     for (let i = 1; i < elements.length - 1; i++) {
         if (elements[i] === el) {
-            console.log(document.querySelectorAll(inputString + `:nth-child(${i + 1})`))
             return inputString + `:nth-child(${i + 1})`
         }
     }
-    console.log(document.querySelectorAll(inputString))
     return inputString
 }
